@@ -7,6 +7,7 @@ services:
       - ./backend/data:/data
     ports:
       - "27071:27017"
+
   backend:
     container_name: ikeep-backend
     build: ./backend
@@ -15,6 +16,9 @@ services:
       - ./backend/.env
     ports:
       - "5000:5000"
+    depends_on:
+      - mongodb
+
   frontend:
     container_name: ikeep-frontend
     build: ./frontend
