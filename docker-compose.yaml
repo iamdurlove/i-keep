@@ -17,7 +17,7 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - mongodb
+      - database
 
   frontend:
     container_name: ikeep-frontend
