@@ -2,7 +2,7 @@ version: "3.8"
 services:
   backend:
     container_name: ikeep-backend
-    build: ./server
+    build: ./backend
     image: durlavparajuli/ikeep-backend:v1
     env_file:
       - ./backend/.env
@@ -10,7 +10,7 @@ services:
       - "5000:5000"
   frontend:
      container_name: ikeep-frontend
-     build: ./client
+     build: ./frontend
      image: durlavparajuli/ikeep-frontend:v1
      env_file:
       - ./frontend/.env
