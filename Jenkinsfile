@@ -14,8 +14,8 @@ pipeline {
             steps {
                  script {
                     git branch: 'main',
-                        credentialsId: 'Github',
-                        url: 'https://github.com/iamdurlove/mern-admin.git'
+                        // credentialsId: 'Github',
+                        url: 'https://github.com/iamdurlove/i-keep.git'
                 }
             }
         }
@@ -23,7 +23,7 @@ pipeline {
         stage('Test1 - SonarQube QA') {
             steps {
                 withSonarQubeEnv("Sonar"){
-                    sh "${SONAR_HOME}/bin/sonar-scanner -Dsonar.projectName=mern -Dsonar.projectKey=mern"
+                    sh "${SONAR_HOME}/bin/sonar-scanner -Dsonar.projectName=ikeep -Dsonar.projectKey=ikeep"
                 }
             }
         }
@@ -57,8 +57,8 @@ pipeline {
     
         stage("Test5 - Docker Image Trivy Test"){
             steps{
-                       sh "trivy image durlavparajuli/mern_frontend:v1 > trivy-frontend.txt"
-                       sh "trivy image durlavparajuli/mern_backend:v1 > trivy-backend.txt"                
+                       sh "trivy image durlavparajuli/ikeep_frontend:v1 > trivy-frontend.txt"
+                       sh "trivy image durlavparajuli/ikeep_backend:v1 > trivy-backend.txt"                
                 }
             }
     
@@ -66,8 +66,8 @@ pipeline {
             steps{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
-                       sh "docker push durlavparajuli/mern_frontend:v1 "
-                       sh "docker push durlavparajuli/mern_backend:v1 "
+                       sh "docker push durlavparajuli/ikeep_frontend:v1 "
+                       sh "docker push durlavparajuli/ikeep_backend:v1 "
                     }
                 }
             }

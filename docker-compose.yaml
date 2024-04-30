@@ -1,17 +1,17 @@
 version: "3.8"
 services:
   backend:
-    container_name: mern_backend
+    container_name: ikeep_backend
     build: ./server
-    image: durlavparajuli/mern_backend:v1
+    image: durlavparajuli/ikeep_backend:v1
     env_file:
       - ./backend/.env
     ports:
       - "5000:5000"
   frontend:
-     container_name: mern_frontend
+     container_name: ikeep_frontend
      build: ./client
-     image: durlavparajuli/mern_frontend:v1
+     image: durlavparajuli/ikeep_frontend:v1
      env_file:
       - ./frontend/.env
      ports:

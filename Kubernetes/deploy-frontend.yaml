@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mern-frontend-deployment
+  name: ikeep-frontend-deployment
   labels:
-    app: mern-frontend
+    app: ikeep-frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mern-frontend
+      app: ikeep-frontend
   template:
     metadata:
       labels:
-        app: mern-frontend
+        app: ikeep-frontend
     spec:
       containers:
-        - name: mern-frontend
-          image: durlavparajuli/mern_frontend:v1
+        - name: ikeep-frontend
+          image: durlavparajuli/ikeep_frontend:v1
           ports:
             - containerPort: 5173
 
@@ -24,11 +24,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mern-frontend-service
+  name: ikeep-frontend-service
 spec:
   type: NodePort
   selector:
-    app: mern-frontend
+    app: ikeep-frontend
   ports:
     - port: 5173
       targetPort: 5173
