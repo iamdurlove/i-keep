@@ -1,5 +1,12 @@
 version: "3.8"
 services:
+  database:
+    container_name: mongodb
+    image: mongo:jammy
+    volumes:
+      - ./backend/data:/data
+    ports:
+      - "27071:27017"
   backend:
     container_name: ikeep-backend
     build: ./backend
@@ -9,15 +16,10 @@ services:
     ports:
       - "5000:5000"
   frontend:
-     container_name: ikeep-frontend
-     build: ./frontend
-     image: durlavparajuli/ikeep-frontend:v1
-     env_file:
+    container_name: ikeep-frontend
+    build: ./frontend
+    image: durlavparajuli/ikeep-frontend:v1
+    env_file:
       - ./frontend/.env
-     ports:
+    ports:
       - "5173:5173"
-  database:
-     container_name: mongodb
-     image: mongo:jammy
-     ports:
-      - "27071:27017"
