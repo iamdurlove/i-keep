@@ -14,7 +14,7 @@ body {
 header h1 {
   padding: 25px 40px;
   margin: 0;
-  background-color: rgba(255, 174, 0, 0.788);
+  background-color: rgba(219, 119, 4, 0.915);
   color: white;
   text-shadow: 1px 1px rgba(0, 0, 0, 0.315);
   font-family: Impact;
@@ -62,7 +62,7 @@ form Button {
 }
 
 form Button .plus_btn {
-  color: rgba(255, 174, 0, 0.788);
+  color: rgba(219, 119, 4, 0.915);
   background-color: white;
   border-radius: 50%;
   height: 50px;
@@ -75,7 +75,7 @@ form Button .plus_btn {
   -o-transition: 0.5s all;
 }
 form Button .plus_btn:hover {
-  background-color: rgba(255, 174, 0, 0.788);
+  background-color: rgba(219, 119, 4, 0.915);
   color: white;
 }
 

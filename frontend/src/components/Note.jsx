@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
-const URL = "http://127.0.0.1:5000/api/note";
-
-const Note = (props) => {
+const URL = import.meta.env.VITE_APP_URI_API;
+const Note = () => {
 	const [note, setNote] = useState([
 		{
 			title: "",
@@ -28,21 +27,23 @@ const Note = (props) => {
 	}, []);
 
 	const deleteNote = async (id) => {
-		try {
-			const response = await fetch(`${URL}/${id}`, {
-				method: "DELETE",
-			});
-			const data = await response.json();
-			console.log(data);
-			fetchNotes();
-		} catch (error) {
-			console.log(error);
+		if (window.confirm("Are you sure you want to delete this note?")) {
+			try {
+				const response = await fetch(`${URL}/${id}`, {
+					method: "DELETE",
+				});
+				const data = await response.json();
+				console.log(data);
+				fetchNotes();
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	};
 
 	return (
 		<>
-			{note ? (
+			{note.length > 0 ? (
 				<div className="note_div">
 					{note.map((val, index) => {
 						return (
@@ -57,7 +58,16 @@ const Note = (props) => {
 					})}
 				</div>
 			) : (
-				<h1>No notes to display</h1>
+				<h2
+					style={{
+						textAlign: "center",
+						marginTop: "10px",
+						fontSize: "20px",
+						color: "red",
+					}}
+				>
+					No notes to display
+				</h2>
 			)}
 		</>
 	);

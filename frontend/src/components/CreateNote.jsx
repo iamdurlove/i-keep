@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { IoIosAddCircle } from "react-icons/io";
 
-const URL = "http://127.0.0.1:5000/api/note";
+const URL = import.meta.env.VITE_APP_URI_API;
 
-const CreateNote = (props) => {
+const CreateNote = () => {
 	const [note, setNote] = useState({
 		title: "",
 		content: "",
