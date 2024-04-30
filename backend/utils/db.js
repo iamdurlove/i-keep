@@ -1,15 +1,25 @@
 const mongoose = require("mongoose");
 
-const DB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const connectDB = async () => {
 	try {
-		await mongoose.connect(onlineURI);
-		console.log("connected to database");
-	} catch (error) {
-		console.log("connection failed", error);
-		process.exit(0);
+		mongoose.connect(MONGODB_URI);
+	} catch (err) {
+		console.error(err.message);
+		process.exit(1);
 	}
+
+	const dbConnection = mongoose.connection;
+
+	dbConnection.once("open", () => {
+		console.log(`Database connected: ${MONGODB_URI}`);
+	});
+
+	dbConnection.on("error", (err) => {
+		console.error(`connection error: ${MONGODB_URI}`);
+	});
+	return;
 };
 
 module.exports = connectDB;
