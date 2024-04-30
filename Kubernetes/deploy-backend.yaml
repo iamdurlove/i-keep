@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ikeep-backend
-          image: durlavparajuli/ikeep_backend:v1
+          image: durlavparajuli/ikeep-backend:v1
           ports:
             - containerPort: 5000
 

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: ikeep-frontend
-          image: durlavparajuli/ikeep_frontend:v1
+          image: durlavparajuli/ikeep-frontend:v1
           ports:
             - containerPort: 5173
 
