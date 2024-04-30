@@ -1,0 +1,100 @@
+pipeline {
+    agent any
+    environment{
+        SONAR_HOME = tool "Sonar"
+    }
+   
+    stages {
+         stage('Clean - Workspace'){
+            steps{
+                cleanWs()
+            }
+        }
+        stage('Checkout - Github') {
+            steps {
+                 script {
+                    git branch: 'main',
+                        credentialsId: 'Github',
+                        url: 'https://github.com/iamdurlove/mern-admin.git'
+                }
+            }
+        }
+
+        stage('Test1 - SonarQube QA') {
+            steps {
+                withSonarQubeEnv("Sonar"){
+                    sh "${SONAR_HOME}/bin/sonar-scanner -Dsonar.projectName=mern -Dsonar.projectKey=mern"
+                }
+            }
+        }
+
+        stage('Test2 - OWASP Dependency Check') {
+             steps{
+                dependencyCheck additionalArguments: '--scan ./', odcInstallation: 'OWASP'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+
+        stage('Test3 - Sonar Quality Gate Scan') {
+            steps {
+               timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: false
+                }
+            }
+        }
+
+        stage('Test4 - Trivy File System Scan') {
+            steps {
+                sh "trivy fs --format table -o trivy-fs-report.html ."
+            }
+        }
+
+        stage("Build - Docker Image Build"){
+            steps{
+                       sh "docker-compose build"                
+                }
+            }
+    
+        stage("Test5 - Docker Image Trivy Test"){
+            steps{
+                       sh "trivy image durlavparajuli/mern_frontend:v1 > trivy-frontend.txt"
+                       sh "trivy image durlavparajuli/mern_backend:v1 > trivy-backend.txt"                
+                }
+            }
+    
+        stage("Docker Push"){
+            steps{
+                script{
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
+                       sh "docker push durlavparajuli/mern_frontend:v1 "
+                       sh "docker push durlavparajuli/mern_backend:v1 "
+                    }
+                }
+            }
+        }
+
+        stage("Deploy - Using Kubernetetes(Minikube)"){
+            steps {
+                withCredentials([
+                    string(credentialsId: 'kubernetes', variable: 'api_token')
+                ]) 
+                {
+                    sh 'kubectl --token $api_token --server https://192.168.49.2:8443  --insecure-skip-tls-verify=true --validate=false apply -f deploy-frontend.yaml '
+                    sh 'kubectl --token $api_token --server https://192.168.49.2:8443  --insecure-skip-tls-verify=true --validate=false apply -f deploy-backend.yaml '
+                }
+            }
+        }
+        
+    }
+    post {
+     always {
+        emailext attachLog: true,
+            subject: "'${currentBuild.result}'",
+            body: "Project: ${env.JOB_NAME}<br/>" +
+                "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                "URL: ${env.BUILD_URL}<br/>",
+            to: 'no-reply@durlavparajuli.com.np',                
+            attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+        }
+    }
+}
