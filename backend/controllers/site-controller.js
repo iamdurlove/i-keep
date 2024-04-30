@@ -19,5 +19,16 @@ const postNote = async (req, res) => {
 		console.log(error);
 	}
 };
+const deleteNote = async (req, res) => {
+	try {
+		const id = req.params.id;
+		const deleteNote = await Note.findOneAndDelete({ _id: id });
+		if (deleteNote) {
+			return res.status(200).json({ message: "Note deleted successfully" });
+		} else return res.status(404).json({ error: "Note not found" });
+	} catch (error) {
+		console.error(error);
+	}
+};
 
-module.exports = { getAllNotes, postNote };
+module.exports = { getAllNotes, postNote, deleteNote };

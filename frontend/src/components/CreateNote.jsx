@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { IoIosAddCircle } from "react-icons/io";
-import axios from "axios";
+
+const URL = "http://127.0.0.1:5000/api/note";
 
 const CreateNote = (props) => {
 	const [note, setNote] = useState({
@@ -8,47 +9,41 @@ const CreateNote = (props) => {
 		content: "",
 	});
 
-	axios
-		.post("https://127.0.0.1:5000/api/note", {
-			note,
-		})
-		.then(function (response) {
-			console.log(response);
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
-
-	const InputEvent = (event) => {
-		const { value, name } = event.target;
-
-		setNote((prevData) => {
-			return {
-				...prevData,
-				[name]: value,
-			};
-		});
+	const handleInput = (e) => {
+		const { value, name } = e.target;
+		setNote({ ...note, [name]: value });
 	};
 
-	const addEvent = () => {
-		props.passNote(note);
-		setNote({
-			title: "",
-			content: "",
-		});
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			const response = await fetch(URL, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(note),
+			});
+			const data = await response.json();
+			window.location.reload();
+
+			console.log(data);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
 		<>
 			<div className="main_note">
-				<form action="">
+				<form action="POST" onSubmit={handleSubmit}>
 					<input
 						autoComplete="off"
 						type="text"
 						placeholder="Title"
 						name="title"
 						value={note.title}
-						onChange={InputEvent}
+						onChange={handleInput}
 						id=""
 					/>
 					<textarea
@@ -58,9 +53,9 @@ const CreateNote = (props) => {
 						rows="3"
 						name="content"
 						value={note.content}
-						onChange={InputEvent}
+						onChange={handleInput}
 					></textarea>
-					<button onClick={addEvent}>
+					<button type="submit">
 						<IoIosAddCircle className="plus_btn" />
 					</button>
 				</form>
