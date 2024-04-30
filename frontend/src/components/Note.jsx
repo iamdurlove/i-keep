@@ -2,8 +2,8 @@ import React from "react";
 import { MdDeleteOutline } from "react-icons/md";
 
 const Note = (props) => {
-	const deleteNote = () => {
-		props.deleteItem();
+	const deleteNote = (id) => {
+		console.log("hello");
 	};
 
 	return (
@@ -11,7 +11,7 @@ const Note = (props) => {
 			<h1> {props.title} </h1>
 			<p>{props.content}</p>
 
-			<button onClick={deleteNote}>
+			<button onClick={deleteNote(props.noteid)}>
 				<MdDeleteOutline className="del_icon" />
 			</button>
 		</div>
