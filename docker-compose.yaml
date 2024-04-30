@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  backend:
+    container_name: mern_backend
+    build: ./server
+    image: durlavparajuli/mern_backend:v1
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5000:5000"
+  frontend:
+     container_name: mern_frontend
+     build: ./client
+     image: durlavparajuli/mern_frontend:v1
+     env_file:
+      - ./frontend/.env
+     ports:
+      - "5173:5173"
+  database:
+     container_name: mongodb
+     image: mongo:jammy
+     ports:
+      - "27071:27017"
