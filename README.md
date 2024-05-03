@@ -1,3 +1,5 @@
+mongoimport --db ikeep --collection notes --file ./data/sample.json --jsonArray
+
 Deploy iKeep on Cloud using Jenkins - DevSecOps Project!
 
 Phase 1: Initial Setup and Deployment
@@ -18,7 +20,7 @@ Set up Docker on the EC2 instance:
 
 sudo apt-get update
 sudo apt-get install docker.io -y
-sudo usermod -aG docker $USER  # Replace with your system's username, e.g., 'ubuntu'
+sudo usermod -aG docker $USER # Replace with your system's username, e.g., 'ubuntu'
 newgrp docker
 sudo chmod 777 /var/run/docker.sock
 Build and run your application using Docker containers:
@@ -61,7 +63,7 @@ sudo apt-get install wget apt-transport-https gnupg lsb-release
 wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
 echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
 sudo apt-get update
-sudo apt-get install trivy        
+sudo apt-get install trivy  
 to scan image using trivy
 
 trivy image <imageid>
@@ -132,46 +134,46 @@ Create a Jenkins webhook
 Configure CI/CD Pipeline in Jenkins:
 Create a CI/CD pipeline in Jenkins to automate your application deployment.
 pipeline {
-    agent any
-    tools {
-        jdk 'jdk17'
-        nodejs 'node16'
-    }
-    environment {
-        SCANNER_HOME = tool 'sonar-scanner'
-    }
-    stages {
-        stage('clean workspace') {
-            steps {
-                cleanWs()
-            }
-        }
-        stage('Checkout from Git') {
-            steps {
-                git branch: 'main', url: 'https://github.com/iamdurlove/i-keep.git'
-            }
-        }
-        stage("Sonarqube Analysis") {
-            steps {
-                withSonarQubeEnv('sonar-server') {
-                    sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
-                    -Dsonar.projectKey=Netflix'''
-                }
-            }
-        }
-        stage("quality gate") {
-            steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
-                }
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
-                sh "npm install"
-            }
-        }
-    }
+agent any
+tools {
+jdk 'jdk17'
+nodejs 'node16'
+}
+environment {
+SCANNER_HOME = tool 'sonar-scanner'
+}
+stages {
+stage('clean workspace') {
+steps {
+cleanWs()
+}
+}
+stage('Checkout from Git') {
+steps {
+git branch: 'main', url: 'https://github.com/iamdurlove/i-keep.git'
+}
+}
+stage("Sonarqube Analysis") {
+steps {
+withSonarQubeEnv('sonar-server') {
+sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
+ -Dsonar.projectKey=Netflix'''
+}
+}
+}
+stage("quality gate") {
+steps {
+script {
+waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+}
+}
+}
+stage('Install Dependencies') {
+steps {
+sh "npm install"
+}
+}
+}
 }
 Certainly, here are the instructions without step numbers:
 
@@ -214,80 +216,79 @@ Click "OK" to save your DockerHub credentials.
 Now, you have installed the Dependency-Check plugin, configured the tool, and added Docker-related plugins along with your DockerHub credentials in Jenkins. You can now proceed with configuring your Jenkins pipeline to include these tools and credentials in your CI/CD process.
 
 pipeline{
-    agent any
-    tools{
-        jdk 'jdk17'
-        nodejs 'node16'
-    }
-    environment {
-        SCANNER_HOME=tool 'sonar-scanner'
-    }
-    stages {
-        stage('clean workspace'){
-            steps{
-                cleanWs()
-            }
-        }
-        stage('Checkout from Git'){
-            steps{
-                git branch: 'main', url: 'https://github.com/iamdurlove/i-keep.git'
-            }
-        }
-        stage("Sonarqube Analysis "){
-            steps{
-                withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
-                    -Dsonar.projectKey=Netflix '''
-                }
-            }
-        }
-        stage("quality gate"){
-           steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
-                }
-            } 
-        }
-        stage('Install Dependencies') {
-            steps {
-                sh "npm install"
-            }
-        }
-        stage('OWASP FS SCAN') {
-            steps {
-                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
-                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
-            }
-        }
-        stage('TRIVY FS SCAN') {
-            steps {
-                sh "trivy fs . > trivyfs.txt"
-            }
-        }
-        stage("Docker Build & Push"){
-            steps{
-                script{
-                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
-                       sh "docker build --build-arg TMDB_V3_API_KEY=<yourapikey> -t netflix ."
-                       sh "docker tag netflix nasi101/netflix:latest "
-                       sh "docker push nasi101/netflix:latest "
-                    }
-                }
-            }
-        }
-        stage("TRIVY"){
-            steps{
-                sh "trivy image nasi101/netflix:latest > trivyimage.txt" 
-            }
-        }
-        stage('Deploy to container'){
-            steps{
-                sh 'docker run -d --name netflix -p 8081:80 nasi101/netflix:latest'
-            }
-        }
-    }
+agent any
+tools{
+jdk 'jdk17'
+nodejs 'node16'
 }
-
+environment {
+SCANNER_HOME=tool 'sonar-scanner'
+}
+stages {
+stage('clean workspace'){
+steps{
+cleanWs()
+}
+}
+stage('Checkout from Git'){
+steps{
+git branch: 'main', url: 'https://github.com/iamdurlove/i-keep.git'
+}
+}
+stage("Sonarqube Analysis "){
+steps{
+withSonarQubeEnv('sonar-server') {
+sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Netflix \
+ -Dsonar.projectKey=Netflix '''
+}
+}
+}
+stage("quality gate"){
+steps {
+script {
+waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+}
+}
+}
+stage('Install Dependencies') {
+steps {
+sh "npm install"
+}
+}
+stage('OWASP FS SCAN') {
+steps {
+dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+dependencyCheckPublisher pattern: '\*\*/dependency-check-report.xml'
+}
+}
+stage('TRIVY FS SCAN') {
+steps {
+sh "trivy fs . > trivyfs.txt"
+}
+}
+stage("Docker Build & Push"){
+steps{
+script{
+withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){  
+ sh "docker build --build-arg TMDB_V3_API_KEY=<yourapikey> -t netflix ."
+sh "docker tag netflix nasi101/netflix:latest "
+sh "docker push nasi101/netflix:latest "
+}
+}
+}
+}
+stage("TRIVY"){
+steps{
+sh "trivy image nasi101/netflix:latest > trivyimage.txt"
+}
+}
+stage('Deploy to container'){
+steps{
+sh 'docker run -d --name netflix -p 8081:80 nasi101/netflix:latest'
+}
+}
+}
+}
 
 If you get docker login failed errorr
 
@@ -338,12 +339,12 @@ Type=simple
 Restart=on-failure
 RestartSec=5s
 ExecStart=/usr/local/bin/prometheus \
-  --config.file=/etc/prometheus/prometheus.yml \
-  --storage.tsdb.path=/data \
-  --web.console.templates=/etc/prometheus/consoles \
-  --web.console.libraries=/etc/prometheus/console_libraries \
-  --web.listen-address=0.0.0.0:9090 \
-  --web.enable-lifecycle
+ --config.file=/etc/prometheus/prometheus.yml \
+ --storage.tsdb.path=/data \
+ --web.console.templates=/etc/prometheus/consoles \
+ --web.console.libraries=/etc/prometheus/console_libraries \
+ --web.listen-address=0.0.0.0:9090 \
+ --web.enable-lifecycle
 
 [Install]
 WantedBy=multi-user.target
@@ -378,7 +379,7 @@ Extract Node Exporter files, move the binary, and clean up:
 
 tar -xvf node_exporter-1.6.1.linux-amd64.tar.gz
 sudo mv node_exporter-1.6.1.linux-amd64/node_exporter /usr/local/bin/
-rm -rf node_exporter*
+rm -rf node_exporter\*
 Create a systemd unit configuration file for Node Exporter:
 
 sudo nano /etc/systemd/system/node_exporter.service
@@ -422,18 +423,19 @@ Prometheus Configuration:
 To configure Prometheus to scrape metrics from Node Exporter and Jenkins, you need to modify the prometheus.yml file. Here is an example prometheus.yml configuration for your setup:
 
 global:
-  scrape_interval: 15s
+scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'node_exporter'
-    static_configs:
-      - targets: ['localhost:9100']
 
-  - job_name: 'jenkins'
-    metrics_path: '/prometheus'
-    static_configs:
-      - targets: ['<your-jenkins-ip>:<your-jenkins-port>']
-Make sure to replace <your-jenkins-ip> and <your-jenkins-port> with the appropriate values for your Jenkins setup.
+- job_name: 'node_exporter'
+  static_configs:
+
+  - targets: ['localhost:9100']
+
+- job_name: 'jenkins'
+  metrics_path: '/prometheus'
+  static_configs: - targets: ['<your-jenkins-ip>:<your-jenkins-port>']
+  Make sure to replace <your-jenkins-ip> and <your-jenkins-port> with the appropriate values for your Jenkins setup.
 
 Check the validity of the configuration file:
 
@@ -565,11 +567,10 @@ Add a Job to Scrape Metrics on nodeip:9001/metrics in prometheus.yml:
 
 Update your Prometheus configuration (prometheus.yml) to add a new job for scraping metrics from nodeip:9001/metrics. You can do this by adding the following configuration to your prometheus.yml file:
 
-  - job_name: 'Netflix'
-    metrics_path: '/metrics'
-    static_configs:
-      - targets: ['node1Ip:9100']
-Replace 'your-job-name' with a descriptive name for your job. The static_configs section specifies the targets to scrape metrics from, and in this case, it's set to nodeip:9001.
+- job_name: 'Netflix'
+  metrics_path: '/metrics'
+  static_configs: - targets: ['node1Ip:9100']
+  Replace 'your-job-name' with a descriptive name for your job. The static_configs section specifies the targets to scrape metrics from, and in this case, it's set to nodeip:9001.
 
 Don't forget to reload or restart Prometheus to apply these changes to your configuration.
 

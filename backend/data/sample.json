@@ -1,122 +1,62 @@
 [
   {
-    "_id": "66313c0e4e410ef3b4d6e540",
-    "title": "Call Mom",
-    "content": "Remember to call mom this evening to catch up",
+    
+    "title": "Apply for Visa",
+    "content": "Apply for visa for upcoming international trip",
     "__v": 0
   },
   {
-    "_id": "66313c1e4e410ef3b4d6e541",
-    "title": "Dentist Appointment",
-    "content": "Schedule dentist appointment for teeth cleaning",
+    
+    "title": "Book Accommodation",
+    "content": "Book accommodation for upcoming trip",
     "__v": 0
   },
   {
-    "_id": "66313c2e4e410ef3b4d6e542",
-    "title": "Oil Change",
-    "content": "Get oil changed for car before road trip",
+    
+    "title": "Pack Travel Essentials",
+    "content": "Pack essential items for the trip",
     "__v": 0
   },
   {
-    "_id": "66313c3e4e410ef3b4d6e543",
-    "title": "Laundry Day",
-    "content": "Do all the laundry this weekend",
+    
+    "title": "Check Flight Details",
+    "content": "Verify flight details for the trip",
     "__v": 0
   },
   {
-    "_id": "66313c4e4e410ef3b4d6e544",
-    "title": "Finish Presentation",
-    "content": "Work on finishing the quarterly presentation for work",
+    
+    "title": "Exchange Currency",
+    "content": "Exchange currency for the trip",
     "__v": 0
   },
   {
-    "_id": "66313c5e4e410ef3b4d6e545",
-    "title": "Grocery List",
-    "content": "Pick up milk, eggs, bread, and other essentials",
+    
+    "title": "Research Local Customs",
+    "content": "Research local customs of the destination",
     "__v": 0
   },
   {
-    "_id": "66313c6e4e410ef3b4d6e546",
-    "title": "Haircut Appointment",
-    "content": "Schedule haircut for next Saturday",
+    
+    "title": "Set Travel Budget",
+    "content": "Establish a budget for the trip",
     "__v": 0
   },
   {
-    "_id": "66313c7e4e410ef3b4d6e547",
-    "title": "Renew Passport",
-    "content": "Renew passport before upcoming international trip",
+    
+    "title": "Plan Itinerary",
+    "content": "Plan the itinerary for the trip",
     "__v": 0
   },
   {
-    "_id": "66313c8e4e410ef3b4d6e548",
-    "title": "Organize Garage",
-    "content": "Spend a day cleaning and organizing the garage",
+    
+    "title": "Check Weather Forecast",
+    "content": "Check the weather forecast for the destination",
     "__v": 0
   },
   {
-    "_id": "66313c9e4e410ef3b4d6e549",
-    "title": "Attend Nephew's Birthday",
-    "content": "Remember to attend nephew's 5th birthday party this weekend",
-    "__v": 0
-  },
-  {
-    "_id": "66313cae4e410ef3b4d6e54a",
-    "title": "Prepare Taxes",
-    "content": "Start gathering documents to prepare taxes for the year",
-    "__v": 0
-  },
-  {
-    "_id": "66313cbe4e410ef3b4d6e54b",
-    "title": "Car Inspection",
-    "content": "Schedule car inspection before registration renewal",
-    "__v": 0
-  },
-  {
-    "_id": "66313cce4e410ef3b4d6e54c",
-    "title": "Vacation Planning",
-    "content": "Research and plan summer vacation destination",
-    "__v": 0
-  },
-  {
-    "_id": "66313cde4e410ef3b4d6e54d",
-    "title": "Volunteer at Shelter",
-    "content": "Volunteer at local animal shelter on Saturday",
-    "__v": 0
-  },
-  {
-    "_id": "66313cee4e410ef3b4d6e54e",
-    "title": "Attend Conference",
-    "content": "Register and prepare for upcoming industry conference",
-    "__v": 0
-  },
-  {
-    "_id": "66313cfe4e410ef3b4d6e54f",
-    "title": "Home Repairs",
-    "content": "Schedule handyman to fix leaky faucet and replace light bulbs",
-    "__v": 0
-  },
-  {
-    "_id": "66313d0e4e410ef3b4d6e550",
-    "title": "Donate Clothes",
-    "content": "Gather old clothes to donate to local charity",
-    "__v": 0
-  },
-  {
-    "_id": "66313d1e4e410ef3b4d6e551",
-    "title": "Workout Schedule",
-    "content": "Plan out workout routine for the week",
-    "__v": 0
-  },
-  {
-    "_id": "66313d2e4e410ef3b4d6e552",
-    "title": "Meal Prep",
-    "content": "Prepare healthy meals for the week ahead",
-    "__v": 0
-  },
-  {
-    "_id": "66313d3e4e410ef3b4d6e553",
-    "title": "Book Club Meeting",
-    "content": "Attend monthly book club meeting on Thursday",
+    
+    "title": "Notify Emergency Contacts",
+    "content": "Inform emergency contacts about travel plans",
     "__v": 0
   }
 ]
